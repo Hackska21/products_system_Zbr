@@ -2,14 +2,14 @@ version: '3.8'
 
 services:
   django_service: &django_service
-    build: ./api
+    build: ./django_app
     image: "django_service:dev"
     container_name: django_service
     command: >
       sh -c "python manage.py migrate &&
       python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - "./django/:/src"
+      - "./django_app/:/src"
     environment:
       DJANGO_SUPERUSER_PASSWORD: "admin"
       DJANGO_SUPERUSER_USERNAME: "root"
