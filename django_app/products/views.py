@@ -4,7 +4,7 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions
 
 from products.models import Product
-from products.permissions import ReadOnlyPermission
+from products.permissions import ReadOnlyPermission, LogRetrieves
 from products.serializers import ProductSerializer
 
 
@@ -13,5 +13,5 @@ class ProductsViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
 
     permission_classes = [
-        permissions.IsAdminUser | ReadOnlyPermission
+        LogRetrieves & (permissions.IsAdminUser | ReadOnlyPermission)
     ]

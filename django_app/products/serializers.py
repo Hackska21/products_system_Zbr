@@ -23,7 +23,8 @@ class ProductSerializer(LogUpdateMixin, serializers.ModelSerializer):
             'id',
             'price',
             'sku',
-            'brand'
+            'brand',
+            'retrieve_count'
         )
         read_only_fields = (
             'id',

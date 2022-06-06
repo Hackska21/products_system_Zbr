@@ -51,6 +51,7 @@ CORE_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
 ]
 
 INTERNAL_APPS = [
@@ -71,6 +72,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'products_system_Zbr.urls'
+TEMPLATE_LOADERS = (
+'django.template.loaders.eggs.Loader',
+)
 
 TEMPLATES = [
     {
