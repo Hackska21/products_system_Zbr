@@ -17,17 +17,23 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False),
+    EMAIL_ENABLED=(bool, False),
+    EMAIL_USE_TLS=(bool, True),
+    EMAIL_HOST=(str, None),
+    EMAIL_HOST_USER=(str, None),
+    EMAIL_HOST_PASSWORD=(str, None),
+    EMAIL_PORT=(int, None),
 )
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -37,9 +43,7 @@ DEBUG = env('DEBUG')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
-
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -73,7 +77,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'products_system_Zbr.urls'
 TEMPLATE_LOADERS = (
-'django.template.loaders.eggs.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATES = [
@@ -95,7 +99,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'products_system_Zbr.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -106,7 +109,6 @@ DATABASES = {
     # }
     'default': env.db()
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -126,7 +128,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -140,7 +141,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -150,6 +150,13 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_ENABLED = env.bool('EMAIL_ENABLED')
+if EMAIL_ENABLED:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = env('EMAIL_USE_TLS').bool()
+    EMAIL_HOST = env('EMAIL_HOST').str('EMAIL_HOST')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER').str()
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD').str('EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = env('EMAIL_PORT').int()
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

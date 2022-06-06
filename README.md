@@ -86,4 +86,14 @@ python manage.py runserver
 ```
 
 
-# Relevant Files
+# Relevant config
+The notification system is based on email notifications, by default emailing only be logged in console
+if is need to move to production the next envrioment variables are needed 
+```shell
+EMAIL_ENABLED = True
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'youremail@gmail.com'
+EMAIL_HOST_PASSWORD = 'email_password'
+EMAIL_PORT = 587
+```
