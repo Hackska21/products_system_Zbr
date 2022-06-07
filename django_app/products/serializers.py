@@ -28,6 +28,7 @@ class ProductSerializer(LogUpdateMixin, serializers.ModelSerializer):
         )
         read_only_fields = (
             'id',
+            'retrieve_count',
         )
 
     def log_changes(self, previous_state, validated_data):
